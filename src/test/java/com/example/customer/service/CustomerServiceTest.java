@@ -37,9 +37,9 @@ public class CustomerServiceTest {
         newCustomer.setLastName(lastName);
         newCustomer.setEmail(email);
         newCustomer.setPhone(phone);
-        customerRepository.add(newCustomer);
+        customerRepository.save(newCustomer);
 
-        List<Customer> customers = customerRepository.get();
+        List<Customer> customers = customerRepository.findAll();
 
         Boolean customerFind = customers.isEmpty();
         Assert.assertFalse(customerFind);
