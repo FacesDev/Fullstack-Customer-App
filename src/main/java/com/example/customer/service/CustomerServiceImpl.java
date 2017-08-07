@@ -17,9 +17,6 @@ import java.util.List;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-
-
-
     @Autowired
     CustomerRepository customerRepository;
 
@@ -28,12 +25,10 @@ public class CustomerServiceImpl implements CustomerService {
     public void add(Customer customer) {
         customerRepository.add(customer);
     }
-
     @Override
     public Customer getById(int id) {
         return customerRepository.getById(id);
     }
-
     @Override
     public List<Customer> get() {
         return customerRepository.get();

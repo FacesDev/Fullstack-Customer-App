@@ -20,38 +20,29 @@ import java.util.List;
 public class CustomerRepositoryImpl implements CustomerRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
     private final String INSERT_SQL = "INSERT INTO customer (firstName, lastName, email, phone) VALUES (?,?,?,?)";
-    @Override
-    public void add(Customer customer) {
-        jdbcTemplate.update(INSERT_SQL, customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getPhone());
-    }
-
     private final String SELECT_BY_ID_SQL = "select * from customer where id = ?";
+    private final String SELECT_SQL = "select * from customer";
+    private final String UPDATE_SQL = "update customer set firstName=?, lastName=?, email=?, phone=? where id=?";
+    private final String DELETE_SQL = "delete from customer where id=?";
+
+    @Override
+    public void add(Customer customer) {  jdbcTemplate.update(INSERT_SQL, customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getPhone());}
     @Override
     public Customer getById(int id) {
         return jdbcTemplate.queryForObject(SELECT_BY_ID_SQL, new CustomerMapper(), id);
     }
-
-    private final String SELECT_SQL = "select * from customer";
     @Override
     public List<Customer> get() {
         return jdbcTemplate.query(SELECT_SQL, new CustomerMapper());
     }
-
-    private final String UPDATE_SQL = "update customer set firstName=?, lastName=?, email=?, phone=? where id=?";
     @Override
-    public void update(Customer customer) {
-        jdbcTemplate.update(UPDATE_SQL, customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getPhone(), customer.getId());
-    }
-
-    private final String DELETE_SQL = "delete from customer where id=?";
+    public void update(Customer customer) {  jdbcTemplate.update(UPDATE_SQL, customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getPhone(), customer.getId());}
     @Override
     public void delete(int id) {
         jdbcTemplate.update(DELETE_SQL, id);
     }
 
-    // Map a row of the result set to a customer object
     private static class CustomerMapper implements RowMapper<Customer> {
         @Override
         public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
